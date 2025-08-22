@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.x96.sys.foundation.cs.lexer.LexerTest.lex;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.cs.lexer.token.Kind;
 import org.x96.sys.foundation.cs.lexer.token.Token;
 
 class ChoiceTest {
@@ -12,266 +11,433 @@ class ChoiceTest {
     void happyChoiceWord() {
         byte[] payload = "| 'sc' ".getBytes();
         assertEquals(7, payload.length);
-        Token[] t = lex(Choice.class, payload);
-        assertEquals(7, t.length);
-
-        // [0x7C] 124 (|) [VERTICAL_LINE] [VERTICAL_LINE]
+        Token[] tokens = lex(Choice.class, payload);
+        assertEquals(7, tokens.length);
+        // [0x7C] [VERTICAL_LINE] [|]
         assertEquals(
                 "Token { Kind[VERTICAL_LINE] Lexeme[0x7C] Span[{0:0 0}:{1:1 1}] }",
-                t[0].toString());
-        assertEquals(0x7C, t[0].lexeme().b());
-        assertEquals(Kind.VERTICAL_LINE, t[0].kind());
-        assertEquals("VERTICAL_LINE", t[0].overKind);
+                tokens[0].toString());
+        assertEquals("VERTICAL_LINE", tokens[0].kind().toString());
+        assertNull(tokens[0].overKind);
+        assertEquals(0, tokens[0].span().start().line());
+        assertEquals(0, tokens[0].span().start().column());
+        assertEquals(0, tokens[0].span().start().offset());
+        assertEquals(1, tokens[0].span().end().line());
+        assertEquals(1, tokens[0].span().end().column());
+        assertEquals(0, tokens[0].span().start().offset());
 
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", tokens[1].toString());
+        assertEquals("SPACE", tokens[1].kind().toString());
+        assertEquals("d", tokens[1].overKind);
+        assertEquals(1, tokens[1].span().start().line());
+        assertEquals(1, tokens[1].span().start().column());
+        assertEquals(1, tokens[1].span().start().offset());
+        assertEquals(1, tokens[1].span().end().line());
+        assertEquals(2, tokens[1].span().end().column());
+        assertEquals(1, tokens[1].span().start().offset());
+
+        // [0x27] [APOSTROPHE] [']
+        assertEquals("Token { Kind[q] Lexeme[0x27] Span[{1:2 2}:{1:3 3}] }", tokens[2].toString());
+        assertEquals("APOSTROPHE", tokens[2].kind().toString());
+        assertEquals("q", tokens[2].overKind);
+        assertEquals(1, tokens[2].span().start().line());
+        assertEquals(2, tokens[2].span().start().column());
+        assertEquals(2, tokens[2].span().start().offset());
+        assertEquals(1, tokens[2].span().end().line());
+        assertEquals(3, tokens[2].span().end().column());
+        assertEquals(2, tokens[2].span().start().offset());
+
+        // [0x73] [LATIN_SMALL_LETTER_S] [s]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", t[1].toString());
-        assertEquals(0x20, t[1].lexeme().b());
-        assertEquals(Kind.SPACE, t[1].kind());
-        assertEquals("empty_space", t[1].overKind);
+                "Token { Kind[word] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", tokens[3].toString());
+        assertEquals("LATIN_SMALL_LETTER_S", tokens[3].kind().toString());
+        assertEquals("word", tokens[3].overKind);
+        assertEquals(1, tokens[3].span().start().line());
+        assertEquals(3, tokens[3].span().start().column());
+        assertEquals(3, tokens[3].span().start().offset());
+        assertEquals(1, tokens[3].span().end().line());
+        assertEquals(4, tokens[3].span().end().column());
+        assertEquals(3, tokens[3].span().start().offset());
 
-        // [0x27] 39 (') [APOSTROPHE] [q]
-        assertEquals("Token { Kind[q] Lexeme[0x27] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
-        assertEquals(0x27, t[2].lexeme().b());
-        assertEquals(Kind.APOSTROPHE, t[2].kind());
-        assertEquals("q", t[2].overKind);
-
-        // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [word]
-        assertEquals("Token { Kind[word] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
-        assertEquals(0x73, t[3].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_S, t[3].kind());
-        assertEquals("word", t[3].overKind);
-
-        // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [word]
-        assertEquals("Token { Kind[word] Lexeme[0x63] Span[{1:4 4}:{1:5 5}] }", t[4].toString());
-        assertEquals(0x63, t[4].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_C, t[4].kind());
-        assertEquals("word", t[4].overKind);
-
-        // [0x27] 39 (') [APOSTROPHE] [q]
-        assertEquals("Token { Kind[q] Lexeme[0x27] Span[{1:5 5}:{1:6 6}] }", t[5].toString());
-        assertEquals(0x27, t[5].lexeme().b());
-        assertEquals(Kind.APOSTROPHE, t[5].kind());
-        assertEquals("q", t[5].overKind);
-
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x63] [LATIN_SMALL_LETTER_C] [c]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:6 6}:{1:7 7}] }", t[6].toString());
-        assertEquals(0x20, t[6].lexeme().b());
-        assertEquals(Kind.SPACE, t[6].kind());
-        assertEquals("empty_space", t[6].overKind);
+                "Token { Kind[word] Lexeme[0x63] Span[{1:4 4}:{1:5 5}] }", tokens[4].toString());
+        assertEquals("LATIN_SMALL_LETTER_C", tokens[4].kind().toString());
+        assertEquals("word", tokens[4].overKind);
+        assertEquals(1, tokens[4].span().start().line());
+        assertEquals(4, tokens[4].span().start().column());
+        assertEquals(4, tokens[4].span().start().offset());
+        assertEquals(1, tokens[4].span().end().line());
+        assertEquals(5, tokens[4].span().end().column());
+        assertEquals(4, tokens[4].span().start().offset());
+
+        // [0x27] [APOSTROPHE] [']
+        assertEquals("Token { Kind[q] Lexeme[0x27] Span[{1:5 5}:{1:6 6}] }", tokens[5].toString());
+        assertEquals("APOSTROPHE", tokens[5].kind().toString());
+        assertEquals("q", tokens[5].overKind);
+        assertEquals(1, tokens[5].span().start().line());
+        assertEquals(5, tokens[5].span().start().column());
+        assertEquals(5, tokens[5].span().start().offset());
+        assertEquals(1, tokens[5].span().end().line());
+        assertEquals(6, tokens[5].span().end().column());
+        assertEquals(5, tokens[5].span().start().offset());
+
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:6 6}:{1:7 7}] }", tokens[6].toString());
+        assertEquals("SPACE", tokens[6].kind().toString());
+        assertEquals("d", tokens[6].overKind);
+        assertEquals(1, tokens[6].span().start().line());
+        assertEquals(6, tokens[6].span().start().column());
+        assertEquals(6, tokens[6].span().start().offset());
+        assertEquals(1, tokens[6].span().end().line());
+        assertEquals(7, tokens[6].span().end().column());
+        assertEquals(6, tokens[6].span().start().offset());
     }
 
     @Test
     void happyChoiceUnit() {
         byte[] payload = "| cs (".getBytes();
         assertEquals(6, payload.length);
-        Token[] t = lex(Choice.class, payload);
-        assertEquals(5, t.length);
-
-        // [0x7C] 124 (|) [VERTICAL_LINE] [VERTICAL_LINE]
+        Token[] tokens = lex(Choice.class, payload);
+        assertEquals(5, tokens.length);
+        // [0x7C] [VERTICAL_LINE] [|]
         assertEquals(
                 "Token { Kind[VERTICAL_LINE] Lexeme[0x7C] Span[{0:0 0}:{1:1 1}] }",
-                t[0].toString());
-        assertEquals(0x7C, t[0].lexeme().b());
-        assertEquals(Kind.VERTICAL_LINE, t[0].kind());
-        assertEquals("VERTICAL_LINE", t[0].overKind);
+                tokens[0].toString());
+        assertEquals("VERTICAL_LINE", tokens[0].kind().toString());
+        assertNull(tokens[0].overKind);
+        assertEquals(0, tokens[0].span().start().line());
+        assertEquals(0, tokens[0].span().start().column());
+        assertEquals(0, tokens[0].span().start().offset());
+        assertEquals(1, tokens[0].span().end().line());
+        assertEquals(1, tokens[0].span().end().column());
+        assertEquals(0, tokens[0].span().start().offset());
 
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", tokens[1].toString());
+        assertEquals("SPACE", tokens[1].kind().toString());
+        assertEquals("d", tokens[1].overKind);
+        assertEquals(1, tokens[1].span().start().line());
+        assertEquals(1, tokens[1].span().start().column());
+        assertEquals(1, tokens[1].span().start().offset());
+        assertEquals(1, tokens[1].span().end().line());
+        assertEquals(2, tokens[1].span().end().column());
+        assertEquals(1, tokens[1].span().start().offset());
+
+        // [0x63] [LATIN_SMALL_LETTER_C] [c]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", t[1].toString());
-        assertEquals(0x20, t[1].lexeme().b());
-        assertEquals(Kind.SPACE, t[1].kind());
-        assertEquals("empty_space", t[1].overKind);
+                "Token { Kind[glyph] Lexeme[0x63] Span[{1:2 2}:{1:3 3}] }", tokens[2].toString());
+        assertEquals("LATIN_SMALL_LETTER_C", tokens[2].kind().toString());
+        assertEquals("glyph", tokens[2].overKind);
+        assertEquals(1, tokens[2].span().start().line());
+        assertEquals(2, tokens[2].span().start().column());
+        assertEquals(2, tokens[2].span().start().offset());
+        assertEquals(1, tokens[2].span().end().line());
+        assertEquals(3, tokens[2].span().end().column());
+        assertEquals(2, tokens[2].span().start().offset());
 
-        // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x63] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
-        assertEquals(0x63, t[2].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_C, t[2].kind());
-        assertEquals("glyph", t[2].overKind);
-
-        // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
-        assertEquals(0x73, t[3].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_S, t[3].kind());
-        assertEquals("glyph", t[3].overKind);
-
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x73] [LATIN_SMALL_LETTER_S] [s]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:4 4}:{1:5 5}] }", t[4].toString());
-        assertEquals(0x20, t[4].lexeme().b());
-        assertEquals(Kind.SPACE, t[4].kind());
-        assertEquals("empty_space", t[4].overKind);
+                "Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", tokens[3].toString());
+        assertEquals("LATIN_SMALL_LETTER_S", tokens[3].kind().toString());
+        assertEquals("glyph", tokens[3].overKind);
+        assertEquals(1, tokens[3].span().start().line());
+        assertEquals(3, tokens[3].span().start().column());
+        assertEquals(3, tokens[3].span().start().offset());
+        assertEquals(1, tokens[3].span().end().line());
+        assertEquals(4, tokens[3].span().end().column());
+        assertEquals(3, tokens[3].span().start().offset());
+
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:4 4}:{1:5 5}] }", tokens[4].toString());
+        assertEquals("SPACE", tokens[4].kind().toString());
+        assertEquals("d", tokens[4].overKind);
+        assertEquals(1, tokens[4].span().start().line());
+        assertEquals(4, tokens[4].span().start().column());
+        assertEquals(4, tokens[4].span().start().offset());
+        assertEquals(1, tokens[4].span().end().line());
+        assertEquals(5, tokens[4].span().end().column());
+        assertEquals(4, tokens[4].span().start().offset());
     }
 
     @Test
     void happyChoiceSegment() {
         byte[] payload = "| [sc cs] [".getBytes();
         assertEquals(11, payload.length);
-        Token[] t = lex(Choice.class, payload);
-        assertEquals(10, t.length);
-
-        // [0x7C] 124 (|) [VERTICAL_LINE] [VERTICAL_LINE]
+        Token[] tokens = lex(Choice.class, payload);
+        assertEquals(10, tokens.length);
+        // [0x7C] [VERTICAL_LINE] [|]
         assertEquals(
                 "Token { Kind[VERTICAL_LINE] Lexeme[0x7C] Span[{0:0 0}:{1:1 1}] }",
-                t[0].toString());
-        assertEquals(0x7C, t[0].lexeme().b());
-        assertEquals(Kind.VERTICAL_LINE, t[0].kind());
-        assertEquals("VERTICAL_LINE", t[0].overKind);
+                tokens[0].toString());
+        assertEquals("VERTICAL_LINE", tokens[0].kind().toString());
+        assertNull(tokens[0].overKind);
+        assertEquals(0, tokens[0].span().start().line());
+        assertEquals(0, tokens[0].span().start().column());
+        assertEquals(0, tokens[0].span().start().offset());
+        assertEquals(1, tokens[0].span().end().line());
+        assertEquals(1, tokens[0].span().end().column());
+        assertEquals(0, tokens[0].span().start().offset());
 
-        // [0x20] 32 ( ) [SPACE] [empty_space]
-        assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", t[1].toString());
-        assertEquals(0x20, t[1].lexeme().b());
-        assertEquals(Kind.SPACE, t[1].kind());
-        assertEquals("empty_space", t[1].overKind);
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", tokens[1].toString());
+        assertEquals("SPACE", tokens[1].kind().toString());
+        assertEquals("d", tokens[1].overKind);
+        assertEquals(1, tokens[1].span().start().line());
+        assertEquals(1, tokens[1].span().start().column());
+        assertEquals(1, tokens[1].span().start().offset());
+        assertEquals(1, tokens[1].span().end().line());
+        assertEquals(2, tokens[1].span().end().column());
+        assertEquals(1, tokens[1].span().start().offset());
 
-        // [0x5B] 91 ([) [LEFT_SQUARE_BRACKET] [LEFT_SQUARE_BRACKET]
+        // [0x5B] [LEFT_SQUARE_BRACKET] [[]
         assertEquals(
                 "Token { Kind[LEFT_SQUARE_BRACKET] Lexeme[0x5B] Span[{1:2 2}:{1:3 3}] }",
-                t[2].toString());
-        assertEquals(0x5B, t[2].lexeme().b());
-        assertEquals(Kind.LEFT_SQUARE_BRACKET, t[2].kind());
-        assertEquals("LEFT_SQUARE_BRACKET", t[2].overKind);
+                tokens[2].toString());
+        assertEquals("LEFT_SQUARE_BRACKET", tokens[2].kind().toString());
+        assertNull(tokens[2].overKind);
+        assertEquals(1, tokens[2].span().start().line());
+        assertEquals(2, tokens[2].span().start().column());
+        assertEquals(2, tokens[2].span().start().offset());
+        assertEquals(1, tokens[2].span().end().line());
+        assertEquals(3, tokens[2].span().end().column());
+        assertEquals(2, tokens[2].span().start().offset());
 
-        // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
-        assertEquals(0x73, t[3].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_S, t[3].kind());
-        assertEquals("glyph", t[3].overKind);
-
-        // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x63] Span[{1:4 4}:{1:5 5}] }", t[4].toString());
-        assertEquals(0x63, t[4].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_C, t[4].kind());
-        assertEquals("glyph", t[4].overKind);
-
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x73] [LATIN_SMALL_LETTER_S] [s]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:5 5}:{1:6 6}] }", t[5].toString());
-        assertEquals(0x20, t[5].lexeme().b());
-        assertEquals(Kind.SPACE, t[5].kind());
-        assertEquals("empty_space", t[5].overKind);
+                "Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", tokens[3].toString());
+        assertEquals("LATIN_SMALL_LETTER_S", tokens[3].kind().toString());
+        assertEquals("glyph", tokens[3].overKind);
+        assertEquals(1, tokens[3].span().start().line());
+        assertEquals(3, tokens[3].span().start().column());
+        assertEquals(3, tokens[3].span().start().offset());
+        assertEquals(1, tokens[3].span().end().line());
+        assertEquals(4, tokens[3].span().end().column());
+        assertEquals(3, tokens[3].span().start().offset());
 
-        // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x63] Span[{1:6 6}:{1:7 7}] }", t[6].toString());
-        assertEquals(0x63, t[6].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_C, t[6].kind());
-        assertEquals("glyph", t[6].overKind);
+        // [0x63] [LATIN_SMALL_LETTER_C] [c]
+        assertEquals(
+                "Token { Kind[glyph] Lexeme[0x63] Span[{1:4 4}:{1:5 5}] }", tokens[4].toString());
+        assertEquals("LATIN_SMALL_LETTER_C", tokens[4].kind().toString());
+        assertEquals("glyph", tokens[4].overKind);
+        assertEquals(1, tokens[4].span().start().line());
+        assertEquals(4, tokens[4].span().start().column());
+        assertEquals(4, tokens[4].span().start().offset());
+        assertEquals(1, tokens[4].span().end().line());
+        assertEquals(5, tokens[4].span().end().column());
+        assertEquals(4, tokens[4].span().start().offset());
 
-        // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:7 7}:{1:8 8}] }", t[7].toString());
-        assertEquals(0x73, t[7].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_S, t[7].kind());
-        assertEquals("glyph", t[7].overKind);
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:5 5}:{1:6 6}] }", tokens[5].toString());
+        assertEquals("SPACE", tokens[5].kind().toString());
+        assertEquals("d", tokens[5].overKind);
+        assertEquals(1, tokens[5].span().start().line());
+        assertEquals(5, tokens[5].span().start().column());
+        assertEquals(5, tokens[5].span().start().offset());
+        assertEquals(1, tokens[5].span().end().line());
+        assertEquals(6, tokens[5].span().end().column());
+        assertEquals(5, tokens[5].span().start().offset());
 
-        // [0x5D] 93 (]) [RIGHT_SQUARE_BRACKET] [RIGHT_SQUARE_BRACKET]
+        // [0x63] [LATIN_SMALL_LETTER_C] [c]
+        assertEquals(
+                "Token { Kind[glyph] Lexeme[0x63] Span[{1:6 6}:{1:7 7}] }", tokens[6].toString());
+        assertEquals("LATIN_SMALL_LETTER_C", tokens[6].kind().toString());
+        assertEquals("glyph", tokens[6].overKind);
+        assertEquals(1, tokens[6].span().start().line());
+        assertEquals(6, tokens[6].span().start().column());
+        assertEquals(6, tokens[6].span().start().offset());
+        assertEquals(1, tokens[6].span().end().line());
+        assertEquals(7, tokens[6].span().end().column());
+        assertEquals(6, tokens[6].span().start().offset());
+
+        // [0x73] [LATIN_SMALL_LETTER_S] [s]
+        assertEquals(
+                "Token { Kind[glyph] Lexeme[0x73] Span[{1:7 7}:{1:8 8}] }", tokens[7].toString());
+        assertEquals("LATIN_SMALL_LETTER_S", tokens[7].kind().toString());
+        assertEquals("glyph", tokens[7].overKind);
+        assertEquals(1, tokens[7].span().start().line());
+        assertEquals(7, tokens[7].span().start().column());
+        assertEquals(7, tokens[7].span().start().offset());
+        assertEquals(1, tokens[7].span().end().line());
+        assertEquals(8, tokens[7].span().end().column());
+        assertEquals(7, tokens[7].span().start().offset());
+
+        // [0x5D] [RIGHT_SQUARE_BRACKET] []]
         assertEquals(
                 "Token { Kind[RIGHT_SQUARE_BRACKET] Lexeme[0x5D] Span[{1:8 8}:{1:9 9}] }",
-                t[8].toString());
-        assertEquals(0x5D, t[8].lexeme().b());
-        assertEquals(Kind.RIGHT_SQUARE_BRACKET, t[8].kind());
-        assertEquals("RIGHT_SQUARE_BRACKET", t[8].overKind);
+                tokens[8].toString());
+        assertEquals("RIGHT_SQUARE_BRACKET", tokens[8].kind().toString());
+        assertNull(tokens[8].overKind);
+        assertEquals(1, tokens[8].span().start().line());
+        assertEquals(8, tokens[8].span().start().column());
+        assertEquals(8, tokens[8].span().start().offset());
+        assertEquals(1, tokens[8].span().end().line());
+        assertEquals(9, tokens[8].span().end().column());
+        assertEquals(8, tokens[8].span().start().offset());
 
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x20] [SPACE] [ ]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:9 9}:{1:10 10}] }",
-                t[9].toString());
-        assertEquals(0x20, t[9].lexeme().b());
-        assertEquals(Kind.SPACE, t[9].kind());
-        assertEquals("empty_space", t[9].overKind);
+                "Token { Kind[d] Lexeme[0x20] Span[{1:9 9}:{1:10 10}] }", tokens[9].toString());
+        assertEquals("SPACE", tokens[9].kind().toString());
+        assertEquals("d", tokens[9].overKind);
+        assertEquals(1, tokens[9].span().start().line());
+        assertEquals(9, tokens[9].span().start().column());
+        assertEquals(9, tokens[9].span().start().offset());
+        assertEquals(1, tokens[9].span().end().line());
+        assertEquals(10, tokens[9].span().end().column());
+        assertEquals(9, tokens[9].span().start().offset());
     }
 
     @Test
     void happyChoiceChoices() {
         byte[] payload = "| (sc | cs) {".getBytes();
         assertEquals(13, payload.length);
-        Token[] t = lex(Choice.class, payload);
-        assertEquals(12, t.length);
-
-        // [0x7C] 124 (|) [VERTICAL_LINE] [VERTICAL_LINE]
+        Token[] tokens = lex(Choice.class, payload);
+        assertEquals(12, tokens.length);
+        // [0x7C] [VERTICAL_LINE] [|]
         assertEquals(
                 "Token { Kind[VERTICAL_LINE] Lexeme[0x7C] Span[{0:0 0}:{1:1 1}] }",
-                t[0].toString());
-        assertEquals(0x7C, t[0].lexeme().b());
-        assertEquals(Kind.VERTICAL_LINE, t[0].kind());
-        assertEquals("VERTICAL_LINE", t[0].overKind);
+                tokens[0].toString());
+        assertEquals("VERTICAL_LINE", tokens[0].kind().toString());
+        assertNull(tokens[0].overKind);
+        assertEquals(0, tokens[0].span().start().line());
+        assertEquals(0, tokens[0].span().start().column());
+        assertEquals(0, tokens[0].span().start().offset());
+        assertEquals(1, tokens[0].span().end().line());
+        assertEquals(1, tokens[0].span().end().column());
+        assertEquals(0, tokens[0].span().start().offset());
 
-        // [0x20] 32 ( ) [SPACE] [empty_space]
-        assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", t[1].toString());
-        assertEquals(0x20, t[1].lexeme().b());
-        assertEquals(Kind.SPACE, t[1].kind());
-        assertEquals("empty_space", t[1].overKind);
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", tokens[1].toString());
+        assertEquals("SPACE", tokens[1].kind().toString());
+        assertEquals("d", tokens[1].overKind);
+        assertEquals(1, tokens[1].span().start().line());
+        assertEquals(1, tokens[1].span().start().column());
+        assertEquals(1, tokens[1].span().start().offset());
+        assertEquals(1, tokens[1].span().end().line());
+        assertEquals(2, tokens[1].span().end().column());
+        assertEquals(1, tokens[1].span().start().offset());
 
-        // [0x28] 40 (() [LEFT_PARENTHESIS] [LEFT_PARENTHESIS]
+        // [0x28] [LEFT_PARENTHESIS] [(]
         assertEquals(
                 "Token { Kind[LEFT_PARENTHESIS] Lexeme[0x28] Span[{1:2 2}:{1:3 3}] }",
-                t[2].toString());
-        assertEquals(0x28, t[2].lexeme().b());
-        assertEquals(Kind.LEFT_PARENTHESIS, t[2].kind());
-        assertEquals("LEFT_PARENTHESIS", t[2].overKind);
+                tokens[2].toString());
+        assertEquals("LEFT_PARENTHESIS", tokens[2].kind().toString());
+        assertNull(tokens[2].overKind);
+        assertEquals(1, tokens[2].span().start().line());
+        assertEquals(2, tokens[2].span().start().column());
+        assertEquals(2, tokens[2].span().start().offset());
+        assertEquals(1, tokens[2].span().end().line());
+        assertEquals(3, tokens[2].span().end().column());
+        assertEquals(2, tokens[2].span().start().offset());
 
-        // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
-        assertEquals(0x73, t[3].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_S, t[3].kind());
-        assertEquals("glyph", t[3].overKind);
-
-        // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x63] Span[{1:4 4}:{1:5 5}] }", t[4].toString());
-        assertEquals(0x63, t[4].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_C, t[4].kind());
-        assertEquals("glyph", t[4].overKind);
-
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x73] [LATIN_SMALL_LETTER_S] [s]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:5 5}:{1:6 6}] }", t[5].toString());
-        assertEquals(0x20, t[5].lexeme().b());
-        assertEquals(Kind.SPACE, t[5].kind());
-        assertEquals("empty_space", t[5].overKind);
+                "Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", tokens[3].toString());
+        assertEquals("LATIN_SMALL_LETTER_S", tokens[3].kind().toString());
+        assertEquals("glyph", tokens[3].overKind);
+        assertEquals(1, tokens[3].span().start().line());
+        assertEquals(3, tokens[3].span().start().column());
+        assertEquals(3, tokens[3].span().start().offset());
+        assertEquals(1, tokens[3].span().end().line());
+        assertEquals(4, tokens[3].span().end().column());
+        assertEquals(3, tokens[3].span().start().offset());
 
-        // [0x7C] 124 (|) [VERTICAL_LINE] [VERTICAL_LINE]
+        // [0x63] [LATIN_SMALL_LETTER_C] [c]
+        assertEquals(
+                "Token { Kind[glyph] Lexeme[0x63] Span[{1:4 4}:{1:5 5}] }", tokens[4].toString());
+        assertEquals("LATIN_SMALL_LETTER_C", tokens[4].kind().toString());
+        assertEquals("glyph", tokens[4].overKind);
+        assertEquals(1, tokens[4].span().start().line());
+        assertEquals(4, tokens[4].span().start().column());
+        assertEquals(4, tokens[4].span().start().offset());
+        assertEquals(1, tokens[4].span().end().line());
+        assertEquals(5, tokens[4].span().end().column());
+        assertEquals(4, tokens[4].span().start().offset());
+
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:5 5}:{1:6 6}] }", tokens[5].toString());
+        assertEquals("SPACE", tokens[5].kind().toString());
+        assertEquals("d", tokens[5].overKind);
+        assertEquals(1, tokens[5].span().start().line());
+        assertEquals(5, tokens[5].span().start().column());
+        assertEquals(5, tokens[5].span().start().offset());
+        assertEquals(1, tokens[5].span().end().line());
+        assertEquals(6, tokens[5].span().end().column());
+        assertEquals(5, tokens[5].span().start().offset());
+
+        // [0x7C] [VERTICAL_LINE] [|]
         assertEquals(
                 "Token { Kind[VERTICAL_LINE] Lexeme[0x7C] Span[{1:6 6}:{1:7 7}] }",
-                t[6].toString());
-        assertEquals(0x7C, t[6].lexeme().b());
-        assertEquals(Kind.VERTICAL_LINE, t[6].kind());
-        assertEquals("VERTICAL_LINE", t[6].overKind);
+                tokens[6].toString());
+        assertEquals("VERTICAL_LINE", tokens[6].kind().toString());
+        assertNull(tokens[6].overKind);
+        assertEquals(1, tokens[6].span().start().line());
+        assertEquals(6, tokens[6].span().start().column());
+        assertEquals(6, tokens[6].span().start().offset());
+        assertEquals(1, tokens[6].span().end().line());
+        assertEquals(7, tokens[6].span().end().column());
+        assertEquals(6, tokens[6].span().start().offset());
 
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x20] [SPACE] [ ]
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:7 7}:{1:8 8}] }", tokens[7].toString());
+        assertEquals("SPACE", tokens[7].kind().toString());
+        assertEquals("d", tokens[7].overKind);
+        assertEquals(1, tokens[7].span().start().line());
+        assertEquals(7, tokens[7].span().start().column());
+        assertEquals(7, tokens[7].span().start().offset());
+        assertEquals(1, tokens[7].span().end().line());
+        assertEquals(8, tokens[7].span().end().column());
+        assertEquals(7, tokens[7].span().start().offset());
+
+        // [0x63] [LATIN_SMALL_LETTER_C] [c]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:7 7}:{1:8 8}] }", t[7].toString());
-        assertEquals(0x20, t[7].lexeme().b());
-        assertEquals(Kind.SPACE, t[7].kind());
-        assertEquals("empty_space", t[7].overKind);
+                "Token { Kind[glyph] Lexeme[0x63] Span[{1:8 8}:{1:9 9}] }", tokens[8].toString());
+        assertEquals("LATIN_SMALL_LETTER_C", tokens[8].kind().toString());
+        assertEquals("glyph", tokens[8].overKind);
+        assertEquals(1, tokens[8].span().start().line());
+        assertEquals(8, tokens[8].span().start().column());
+        assertEquals(8, tokens[8].span().start().offset());
+        assertEquals(1, tokens[8].span().end().line());
+        assertEquals(9, tokens[8].span().end().column());
+        assertEquals(8, tokens[8].span().start().offset());
 
-        // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x63] Span[{1:8 8}:{1:9 9}] }", t[8].toString());
-        assertEquals(0x63, t[8].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_C, t[8].kind());
-        assertEquals("glyph", t[8].overKind);
+        // [0x73] [LATIN_SMALL_LETTER_S] [s]
+        assertEquals(
+                "Token { Kind[glyph] Lexeme[0x73] Span[{1:9 9}:{1:10 10}] }", tokens[9].toString());
+        assertEquals("LATIN_SMALL_LETTER_S", tokens[9].kind().toString());
+        assertEquals("glyph", tokens[9].overKind);
+        assertEquals(1, tokens[9].span().start().line());
+        assertEquals(9, tokens[9].span().start().column());
+        assertEquals(9, tokens[9].span().start().offset());
+        assertEquals(1, tokens[9].span().end().line());
+        assertEquals(10, tokens[9].span().end().column());
+        assertEquals(9, tokens[9].span().start().offset());
 
-        // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
-        assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:9 9}:{1:10 10}] }", t[9].toString());
-        assertEquals(0x73, t[9].lexeme().b());
-        assertEquals(Kind.LATIN_SMALL_LETTER_S, t[9].kind());
-        assertEquals("glyph", t[9].overKind);
-
-        // [0x29] 41 ()) [RIGHT_PARENTHESIS] [RIGHT_PARENTHESIS]
+        // [0x29] [RIGHT_PARENTHESIS] [)]
         assertEquals(
                 "Token { Kind[RIGHT_PARENTHESIS] Lexeme[0x29] Span[{1:10 10}:{1:11 11}] }",
-                t[10].toString());
-        assertEquals(0x29, t[10].lexeme().b());
-        assertEquals(Kind.RIGHT_PARENTHESIS, t[10].kind());
-        assertEquals("RIGHT_PARENTHESIS", t[10].overKind);
+                tokens[10].toString());
+        assertEquals("RIGHT_PARENTHESIS", tokens[10].kind().toString());
+        assertNull(tokens[10].overKind);
+        assertEquals(1, tokens[10].span().start().line());
+        assertEquals(10, tokens[10].span().start().column());
+        assertEquals(10, tokens[10].span().start().offset());
+        assertEquals(1, tokens[10].span().end().line());
+        assertEquals(11, tokens[10].span().end().column());
+        assertEquals(10, tokens[10].span().start().offset());
 
-        // [0x20] 32 ( ) [SPACE] [empty_space]
+        // [0x20] [SPACE] [ ]
         assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:11 11}:{1:12 12}] }",
-                t[11].toString());
-        assertEquals(0x20, t[11].lexeme().b());
-        assertEquals(Kind.SPACE, t[11].kind());
-        assertEquals("empty_space", t[11].overKind);
+                "Token { Kind[d] Lexeme[0x20] Span[{1:11 11}:{1:12 12}] }", tokens[11].toString());
+        assertEquals("SPACE", tokens[11].kind().toString());
+        assertEquals("d", tokens[11].overKind);
+        assertEquals(1, tokens[11].span().start().line());
+        assertEquals(11, tokens[11].span().start().column());
+        assertEquals(11, tokens[11].span().start().offset());
+        assertEquals(1, tokens[11].span().end().line());
+        assertEquals(12, tokens[11].span().end().column());
+        assertEquals(11, tokens[11].span().start().offset());
     }
 }

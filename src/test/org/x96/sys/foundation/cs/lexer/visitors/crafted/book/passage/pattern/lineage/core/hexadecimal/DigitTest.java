@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 import org.x96.sys.foundation.cs.lexer.Lexer;
-import org.x96.sys.foundation.cs.lexer.token.Kind;
 import org.x96.sys.foundation.cs.lexer.token.Token;
 
 class DigitTest {
@@ -12,11 +11,19 @@ class DigitTest {
     void happy() {
         byte[] payload = "01".getBytes();
         Lexer lexer = new Lexer(Digit.class);
-        Token[] t = lexer.lex(payload);
-        assertEquals(1, t.length);
-        assertEquals("Token { Kind[digit] Lexeme[0x30] Span[{0:0 0}:{1:1 1}] }", t[0].toString());
-        assertEquals(0x30, t[0].lexeme().b());
-        assertEquals(Kind.DIGIT_ZERO, t[0].kind());
-        assertEquals("digit", t[0].overKind);
+        Token[] tokens = lexer.lex(payload);
+        assertEquals(1, tokens.length);
+        // [0x30] [DIGIT_ZERO] [0]
+        assertEquals(
+                "Token { Kind[DIGIT_ZERO] Lexeme[0x30] Span[{0:0 0}:{1:1 1}] }",
+                tokens[0].toString());
+        assertEquals("DIGIT_ZERO", tokens[0].kind().toString());
+        assertNull(tokens[0].overKind);
+        assertEquals(0, tokens[0].span().start().line());
+        assertEquals(0, tokens[0].span().start().column());
+        assertEquals(0, tokens[0].span().start().offset());
+        assertEquals(1, tokens[0].span().end().line());
+        assertEquals(1, tokens[0].span().end().column());
+        assertEquals(0, tokens[0].span().start().offset());
     }
 }

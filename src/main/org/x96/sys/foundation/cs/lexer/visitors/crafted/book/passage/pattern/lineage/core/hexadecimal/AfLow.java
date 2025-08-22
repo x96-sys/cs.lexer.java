@@ -29,7 +29,7 @@ public class AfLow extends Visitor {
     }
 
     @Override
-    public String overkind() {
+    public String overKind() {
         return "af_low";
     }
 }

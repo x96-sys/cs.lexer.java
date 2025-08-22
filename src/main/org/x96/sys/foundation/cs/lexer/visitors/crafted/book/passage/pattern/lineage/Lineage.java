@@ -16,7 +16,7 @@ public class Lineage extends Core {
     public Token[] visit() {
         Serial serial = new Serial();
         serial.oneOrMore(Cored.class);
-        serial.know(Semicolon.class);
+        serial.one(Semicolon.class);
 
         return serial.stream(tokenizer);
     }

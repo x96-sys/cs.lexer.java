@@ -24,31 +24,5 @@ class RangeHexadecimalTest {
         assertEquals("Token { Kind[hex] Lexeme[0x78] Span[{1:6 6}:{1:7 7}] }", t[6].toString());
         assertEquals("Token { Kind[hex] Lexeme[0x46] Span[{1:7 7}:{1:8 8}] }", t[7].toString());
         assertEquals("Token { Kind[hex] Lexeme[0x46] Span[{1:8 8}:{1:9 9}] }", t[8].toString());
-
-        for (int i = 0; i < t.length; i++) {
-            byte b = t[i].lexeme().b();
-            System.out.printf(
-                    """
-                    Token t%s = new Token(
-                    Kind.%s,
-                    new Lexeme((byte) 0x%X),
-                    new Span(
-                    new Position(%s, %s, %s),
-                    new Position(%s, %s, %s)));
-                    t%s.overKind("%s");
-                    %n\
-                    """,
-                    i,
-                    t[i].kind().toString(),
-                    b,
-                    t[i].span().start().line(),
-                    t[i].span().start().column(),
-                    t[i].span().start().offset(),
-                    t[i].span().end().line(),
-                    t[i].span().end().column(),
-                    t[i].span().end().offset(),
-                    i,
-                    t[i].overKind);
-        }
     }
 }

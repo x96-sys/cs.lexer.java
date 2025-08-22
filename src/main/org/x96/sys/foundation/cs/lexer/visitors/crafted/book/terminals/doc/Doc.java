@@ -11,7 +11,7 @@ public class Doc extends NumberSign {
     }
 
     @Override
-    public String overkind() {
+    public String overKind() {
         return "doc";
     }
 

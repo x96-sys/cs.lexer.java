@@ -7,7 +7,6 @@ import java.io.PrintStream;
 
 public class TestUtils {
 
-    /** Captura a saída de System.out durante a execução de runnable e compara com o esperado. */
     public static void assertPrintLn(String expected, Runnable action) {
         ByteArrayOutputStream outContent = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;

@@ -14,11 +14,10 @@ class DocOrEmptySpaceTest {
         Lexer lexer = new Lexer(DocOrEmptySpace.class);
         Token[] t = lexer.lex(payload);
         assertEquals(1, t.length);
-        assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{0:0 0}:{1:1 1}] }", t[0].toString());
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{0:0 0}:{1:1 1}] }", t[0].toString());
         assertEquals(0x20, t[0].lexeme().b());
         assertEquals(Kind.SPACE, t[0].kind());
-        assertEquals("empty_space", t[0].overKind);
+        assertEquals("d", t[0].overKind);
     }
 
     @Test
@@ -27,9 +26,9 @@ class DocOrEmptySpaceTest {
         Lexer lexer = new Lexer(DocOrEmptySpace.class);
         Token[] t = lexer.lex(payload);
         assertEquals(1, t.length);
-        assertEquals("Token { Kind[doc] Lexeme[0x23] Span[{0:0 0}:{1:1 1}] }", t[0].toString());
+        assertEquals("Token { Kind[d] Lexeme[0x23] Span[{0:0 0}:{1:1 1}] }", t[0].toString());
         assertEquals(0x23, t[0].lexeme().b());
         assertEquals(Kind.NUMBER_SIGN, t[0].kind());
-        assertEquals("doc", t[0].overKind);
+        assertEquals("d", t[0].overKind);
     }
 }

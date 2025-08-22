@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.x96.sys.foundation.cs.lexer.Lexer;
 import org.x96.sys.foundation.cs.lexer.token.Token;
 
-import java.util.StringJoiner;
-
 class SegmentTest {
     private Token[] lex(byte[] payload) {
         return new Lexer(Segment.class).lex(payload);
@@ -68,34 +66,5 @@ class SegmentTest {
         // assertEquals(Kind.SPACE, t[5].kind());
         // assertEquals("empty_space", t[5].overKind);
 
-        StringJoiner joiner = new StringJoiner(", ");
-        for (int i = 0; i < t.length; i++) {
-            byte b = t[i].lexeme().b();
-            System.out.printf(
-                    """
-                    Token t%s = new Token(
-                    Kind.%s,
-                    new Lexeme((byte) 0x%X),
-                    new Span(
-                    new Position(%s, %s, %s),
-                    new Position(%s, %s, %s)));
-                    t%s.overKind("%s");
-                    %n\
-                    """,
-                    i,
-                    t[i].kind().toString(),
-                    b,
-                    t[i].span().start().line(),
-                    t[i].span().start().column(),
-                    t[i].span().start().offset(),
-                    t[i].span().end().line(),
-                    t[i].span().end().column(),
-                    t[i].span().end().offset(),
-                    i,
-                    t[i].overKind);
-            joiner.add("t" + i);
-        }
-
-        System.out.printf("Token[] t = new Token[]{%s};%n", joiner);
     }
 }

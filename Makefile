@@ -1,4 +1,4 @@
-BUILD_DIR     = build
+BUILD_DIR     = out
 MAIN_BUILD    = $(BUILD_DIR)/main
 TEST_BUILD    = $(BUILD_DIR)/test
 COVERAGE_DIR  = $(BUILD_DIR)/coverage
@@ -6,11 +6,11 @@ COVERAGE_DIR  = $(BUILD_DIR)/coverage
 SRC_MAIN      = src/main
 SRC_TEST      = src/test
 
-TOOL_DIR      = tools
 LIB_DIR       = lib
+TOOL_DIR      = tools
 
 # Dependências
-FLUX_VERSION       = 1.0.0
+FLUX_VERSION       = 1.0.1
 FLUX_JAR           = $(LIB_DIR)/org.x96.sys.foundation.io.jar
 FLUX_URL           = https://github.com/x96-sys/flux.java/releases/download/v$(FLUX_VERSION)/org.x96.sys.foundation.io.jar
 
@@ -26,7 +26,7 @@ CS_LEXER_ENTRY_VERSION = 0.1.2
 CS_LEXER_ENTRY_JAR     = $(LIB_DIR)/org.x96.sys.foundation.cs.lexer.entry.jar
 CS_LEXER_ENTRY_URL     = https://github.com/x96-sys/cs.lexer.visitor.entry.java/releases/download/v$(CS_LEXER_ENTRY_VERSION)/org.x96.sys.foundation.cs.lexer.entry.jar
 
-CS_VISITOR_VERSION = 0.1.2
+CS_VISITOR_VERSION = 0.1.5
 CS_VISITOR_JAR     = $(LIB_DIR)/org.x96.sys.foundation.cs.lexer.visitor.jar
 CS_VISITOR_URL     = https://github.com/x96-sys/cs.lexer.visitor.java/releases/download/v$(CS_VISITOR_VERSION)/org.x96.sys.foundation.cs.lexer.visitor.jar
 
@@ -42,13 +42,18 @@ CS_ROUTER_VERSION = 0.1.2
 CS_ROUTER_JAR     = $(LIB_DIR)/org.x96.sys.foundation.cs.lexer.router.jar
 CS_ROUTER_URL     = https://github.com/x96-sys/cs.lexer.router.java/releases/download/v$(CS_ROUTER_VERSION)/org.x96.sys.foundation.cs.lexer.router.jar
 
-JUNIT_VERSION = 1.13.4
-JUNIT_JAR     = $(TOOL_DIR)/junit-platform-console-standalone.jar
-JUNIT_URL     = https://maven.org/maven2/org/junit/platform/junit-platform-console-standalone/$(JUNIT_VERSION)/junit-platform-console-standalone-$(JUNIT_VERSION).jar
+CS_AST_VERSION = 0.1.2
+CS_AST_JAR = $(LIB_DIR)/org.x96.sys.foundation.cs.ast.jar
+CS_AST_URL = https://github.com/x96-sys/cs.ast.java/releases/download/v0.1.2/org.x96.sys.foundation.cs.ast.jar
 
 GJF_VERSION   = 1.28.0
 GJF_JAR       = $(TOOL_DIR)/google-java-format.jar
 GJF_URL       = https://maven.org/maven2/com/google/googlejavaformat/google-java-format/$(GJF_VERSION)/google-java-format-$(GJF_VERSION)-all-deps.jar
+
+JUNIT_VERSION = 1.13.4
+JUNIT_JAR     = $(TOOL_DIR)/junit-platform-console-standalone.jar
+JUNIT_URL     = https://maven.org/maven2/org/junit/platform/junit-platform-console-standalone/$(JUNIT_VERSION)/junit-platform-console-standalone-$(JUNIT_VERSION).jar
+
 
 JACOCO_VERSION   = 0.8.12
 JACOCO_JAR       = $(TOOL_DIR)/jacoco-agent.jar
@@ -56,39 +61,28 @@ JACOCO_CLI       = $(TOOL_DIR)/jacoco-cli.jar
 JACOCO_AGENT_URL = https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/$(JACOCO_VERSION)/org.jacoco.agent-$(JACOCO_VERSION)-runtime.jar
 JACOCO_CLI_URL   = https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/$(JACOCO_VERSION)/org.jacoco.cli-$(JACOCO_VERSION)-nodeps.jar
 
-# Classpaths
-CP  = $(FLUX_JAR):$(CS_TOKENIZER_JAR):$(CS_TOKEN_JAR):$(CS_LEXER_ENTRY_JAR):$(CS_VISITOR_JAR):$(CS_KIND_JAR):$(CS_TOKEN_JAR):$(CS_ROUTER_JAR)
+CP  = $(FLUX_JAR):$(CS_TOKENIZER_JAR):$(CS_TOKEN_JAR):$(CS_LEXER_ENTRY_JAR):$(CS_VISITOR_JAR):$(CS_KIND_JAR):$(CS_TOKEN_JAR):$(CS_ROUTER_JAR):$(CS_AST_JAR)
 CPT = $(MAIN_BUILD):$(CP):$(JUNIT_JAR)
 
 # Fontes
-JAVA_SOURCES = $(shell find $(SRC_DIRS) -name "*.java")
+JAVA_SOURCES = $(shell find $(SRC_MAIN) -name "*.java")
 
 # Artefato distribuível
-DISTRO_JAR=org.x96.sys.foundation.cs.visitors.jar
+DISTRO_JAR = org.x96.sys.foundation.cs.visitors.jar
 
-# Alvos principais
-all: libs build-main build-test coverage-report distro distro-all-deps
-
-# Builds
-build-main:
+build: clean/build libs
 	@mkdir -p $(MAIN_BUILD)
-	@javac -d $(MAIN_BUILD) -cp $(CP) $(shell find src/main -name "*.java")
+	@javac -Xlint:deprecation -d $(MAIN_BUILD) -cp $(CP) $(shell find src/main -name "*.java")
 
-build-cli: build-main
-	@mkdir -p $(CLI_BUILD)
-	@javac -d $(CLI_BUILD) -cp $(CP_CLI) $(shell find src/cli -name "*.java" 2>/dev/null || true)
+build/test: clean/build/test build
+	@javac -Xlint:deprecation -d $(TEST_BUILD) -cp $(CPT) $(shell find src/test -name "*.java")
 
-build-test: tools/junit | $(TEST_BUILD)
-	@javac -d $(TEST_BUILD) -cp $(CPT) $(shell find src/test -name "*.java")
-
-# Testes
-test: build-test
+test: kit build/test build
 	@java -jar $(JUNIT_JAR) execute \
 	   --class-path $(TEST_BUILD):$(MAIN_BUILD):$(CLI_BUILD):$(CP) \
 	   --scan-class-path
 
-# Cobertura
-test-coverage: build-test tools/jacoco | $(COVERAGE_DIR)
+test-coverage: clean/coverage
 	@echo "📊 Executando testes com cobertura..."
 	@java -javaagent:$(JACOCO_JAR)=destfile=$(COVERAGE_DIR)/jacoco.exec,excludes=java.*:javax.*:sun.*:jdk.*:com.sun.*:org.junit.* \
 	   -jar $(JUNIT_JAR) \
@@ -106,43 +100,12 @@ coverage-report: test-coverage
 	   --csv $(COVERAGE_DIR)/jacoco.csv
 	@echo "✅ Relatório em $(COVERAGE_DIR)/html/index.html"
 
-# Alias para coverage-report
-coverage: coverage-report
-
-
-distro: build-main
+distro:
 	@echo "📦 Criando JAR distribuível..."
 	@jar cf $(DISTRO_JAR) -C $(MAIN_BUILD) .
 	@echo "✅ JAR criado: $(DISTRO_JAR)"
 
-# JAR com dependências incluídas (all-deps JAR)
-distro-all-deps: build-main
-	@echo "📦 Criando deps JAR com dependências..."
-	@mkdir -p $(BUILD_DIR)/deps-jar
-	@cd $(BUILD_DIR)/deps-jar && jar xf ../../$(FLUX_JAR)
-	@cd $(BUILD_DIR)/deps-jar && jar xf ../../$(TOKENIZER_JAR)
-	@cp -r $(MAIN_BUILD)/* $(BUILD_DIR)/deps-jar/
-	@jar cf org.x96.sys.foundation.cs.visitors-deps.jar -C $(BUILD_DIR)/all-deps-jar .
-	@echo "✅ deps JAR criado: org.x96.sys.foundation.cs.visitors-all-deps.jar"
-
-# Downloads
-
-
-tools:
-	@mkdir -p $(TOOL_DIR)
-
-tools/junit: tools
-	@[ -f $(JUNIT_JAR) ] || (echo "📦 Baixando JUnit..."; curl -L -o $(JUNIT_JAR) $(JUNIT_URL))
-
-tools/gjf: tools
-	@[ -f $(GJF_JAR) ] || (echo "📦 Baixando Google Java Format..."; curl -L -o $(GJF_JAR) $(GJF_URL))
-
-tools/jacoco: tools
-	@[ -f $(JACOCO_JAR) ] || (echo "📦 Baixando JaCoCo Agent..."; curl -L -o $(JACOCO_JAR) $(JACOCO_AGENT_URL))
-	@[ -f $(JACOCO_CLI) ] || (echo "📦 Baixando JaCoCo CLI..."; curl -L -o $(JACOCO_CLI) $(JACOCO_CLI_URL))
-
-# Formatação
-format: tools/gjf
+format:
 	@find src -name "*.java" -print0 | xargs -0 java -jar $(GJF_JAR) --aosp --replace
 
 define deps
@@ -155,7 +118,7 @@ $1/$2: $1
 	fi
 endef
 
-libs: lib/flux lib/cs-token lib/cs-tokenizer lib/cs-lexer-entry lib/cs-lexer-visitor lib/cs-kind lib/cs-router
+libs: lib/flux lib/cs-token lib/cs-tokenizer lib/cs-lexer-entry lib/cs-lexer-visitor lib/cs-kind lib/cs-router lib/cs-ast
 
 $(eval $(call deps,lib,flux,FLUX))
 $(eval $(call deps,lib,cs-token,CS_TOKEN))
@@ -164,11 +127,26 @@ $(eval $(call deps,lib,cs-lexer-entry,CS_LEXER_ENTRY))
 $(eval $(call deps,lib,cs-lexer-visitor,CS_VISITOR))
 $(eval $(call deps,lib,cs-kind,CS_KIND))
 $(eval $(call deps,lib,cs-router,CS_ROUTER))
+$(eval $(call deps,lib,cs-ast,CS_AST))
 
-$(TEST_BUILD) $(COVERAGE_DIR) $(LIB_DIR):
+
+kit: tools/junit tools/gjf
+
+$(eval $(call deps,tools,junit,JUNIT))
+$(eval $(call deps,tools,gjf,GJF))
+
+$(TEST_BUILD) $(COVERAGE_DIR) $(LIB_DIR) $(TOOL_DIR):
 	@mkdir -p $@
 
-# Limpeza
+clean/build/test:
+	@rm -rf $(TEST_BUILD)
+
+clean/build:
+	@rm -rf $(MAIN_BUILD)
+
+clean/coverage:
+	@rm -rf $(COVERAGE_DIR)
+
 clean:
 	@rm -rf $(BUILD_DIR)
 	@rm -rf $(LIB_DIR)

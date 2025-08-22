@@ -13,12 +13,12 @@ public class AfUp extends Visitor {
 
     @Override
     public Token[] visit() {
-        if (!allowed()) {
+        if (denied()) {
             throw new RuntimeException(
                     String.format(
                             "token inesperado [0x%X]; faixa esperada eh [0x41] - [0x46]", look()));
         } else {
-            rec();
+            rec(overKind());
         }
         return stream();
     }
@@ -29,7 +29,7 @@ public class AfUp extends Visitor {
     }
 
     @Override
-    public String overkind() {
+    public String overKind() {
         return "af_up";
     }
 }
