@@ -55,11 +55,16 @@ JUNIT_JAR     = $(TOOL_DIR)/junit-platform-console-standalone.jar
 JUNIT_URL     = https://maven.org/maven2/org/junit/platform/junit-platform-console-standalone/$(JUNIT_VERSION)/junit-platform-console-standalone-$(JUNIT_VERSION).jar
 
 
-JACOCO_VERSION   = 0.8.12
-JACOCO_JAR       = $(TOOL_DIR)/jacoco-agent.jar
-JACOCO_CLI       = $(TOOL_DIR)/jacoco-cli.jar
-JACOCO_AGENT_URL = https://repo1.maven.org/maven2/org/jacoco/org.jacoco.agent/$(JACOCO_VERSION)/org.jacoco.agent-$(JACOCO_VERSION)-runtime.jar
-JACOCO_CLI_URL   = https://repo1.maven.org/maven2/org/jacoco/org.jacoco.cli/$(JACOCO_VERSION)/org.jacoco.cli-$(JACOCO_VERSION)-nodeps.jar
+JACOCO_VERSION = 0.8.13
+JACOCO_BASE    = https://maven.org/maven2/org/jacoco
+
+JACOCO_CLI_VERSION = $(JACOCO_VERSION)
+JACOCO_CLI_JAR     = $(TOOL_DIR)/jacococli.jar
+JACOCO_CLI_URL     = $(JACOCO_BASE)/org.jacoco.cli/$(JACOCO_CLI_VERSION)/org.jacoco.cli-$(JACOCO_CLI_VERSION)-nodeps.jar
+
+JACOCO_AGENT_VERSION = $(JACOCO_VERSION)
+JACOCO_AGENT_JAR     = $(TOOL_DIR)/jacocoagent-runtime.jar
+JACOCO_AGENT_URL     = $(JACOCO_BASE)/org.jacoco.agent/$(JACOCO_AGENT_VERSION)/org.jacoco.agent-$(JACOCO_AGENT_VERSION)-runtime.jar
 
 CP  = $(FLUX_JAR):$(CS_TOKENIZER_JAR):$(CS_TOKEN_JAR):$(CS_LEXER_ENTRY_JAR):$(CS_VISITOR_JAR):$(CS_KIND_JAR):$(CS_TOKEN_JAR):$(CS_ROUTER_JAR):$(CS_AST_JAR)
 CPT = $(MAIN_BUILD):$(CP):$(JUNIT_JAR)
@@ -68,7 +73,7 @@ CPT = $(MAIN_BUILD):$(CP):$(JUNIT_JAR)
 JAVA_SOURCES = $(shell find $(SRC_MAIN) -name "*.java")
 
 # Artefato distribuível
-DISTRO_JAR = org.x96.sys.foundation.cs.visitors.jar
+DISTRO_JAR = org.x96.sys.foundation.cs.lexer.dsl.jar
 
 build: clean/build libs
 	@mkdir -p $(MAIN_BUILD)
@@ -84,7 +89,7 @@ test: kit build/test build
 
 test-coverage: clean/coverage
 	@echo "📊 Executando testes com cobertura..."
-	@java -javaagent:$(JACOCO_JAR)=destfile=$(COVERAGE_DIR)/jacoco.exec,excludes=java.*:javax.*:sun.*:jdk.*:com.sun.*:org.junit.* \
+	@java -javaagent:$(JACOCO_AGENT_JAR)=destfile=$(COVERAGE_DIR)/jacoco.exec,excludes=java.*:javax.*:sun.*:jdk.*:com.sun.*:org.junit.* \
 	   -jar $(JUNIT_JAR) \
 	   execute \
 	   --class-path $(TEST_BUILD):$(MAIN_BUILD):$(CLI_BUILD):$(CP) \
@@ -92,7 +97,7 @@ test-coverage: clean/coverage
 
 coverage-report: test-coverage
 	@echo "📋 Gerando relatório de cobertura..."
-	@java -jar $(JACOCO_CLI) report $(COVERAGE_DIR)/jacoco.exec \
+	@java -jar $(JACOCO_CLI_JAR) report $(COVERAGE_DIR)/jacoco.exec \
 	   --classfiles $(MAIN_BUILD) \
 	   --sourcefiles src/main \
 	   --html $(COVERAGE_DIR)/html \
@@ -128,6 +133,11 @@ $(eval $(call deps,lib,cs-lexer-visitor,CS_VISITOR))
 $(eval $(call deps,lib,cs-kind,CS_KIND))
 $(eval $(call deps,lib,cs-router,CS_ROUTER))
 $(eval $(call deps,lib,cs-ast,CS_AST))
+
+kit: tools/jacoco_cli tools/jacoco_agent
+
+$(eval $(call deps,tools,jacoco_cli,JACOCO_CLI))
+$(eval $(call deps,tools,jacoco_agent,JACOCO_AGENT))
 
 
 kit: tools/junit tools/gjf

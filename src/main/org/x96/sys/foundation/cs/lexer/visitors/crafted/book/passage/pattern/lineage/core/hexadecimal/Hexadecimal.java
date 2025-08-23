@@ -14,7 +14,7 @@ public class Hexadecimal extends DigitZero {
 
     @Override
     public String overKind() {
-        return "hex";
+        return "hexadecimal";
     }
 
     @Override

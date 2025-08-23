@@ -14,14 +14,13 @@ class BookTest {
                 \u0002
                 c = 0x63;
                 s = {0x73}
-                \u0003\
+                \u0003 :D\
                 """;
         byte[] payload = source.getBytes();
-        assertEquals(24, payload.length);
+        assertEquals(27, payload.length);
         Token[] tokens = lex(Book.class, payload);
+        assertEquals(24, tokens.length);
 
-        assertEquals(24, tokens.length);
-        assertEquals(24, tokens.length);
         // [0x2] [STX] [\u0002]
         assertEquals(
                 "Token { Kind[open_book] Lexeme[0x2] Span[{0:0 0}:{1:1 1}] }",
@@ -95,9 +94,10 @@ class BookTest {
 
         // [0x30] [DIGIT_ZERO] [0]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x30] Span[{2:5 6}:{2:6 7}] }", tokens[6].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x30] Span[{2:5 6}:{2:6 7}] }",
+                tokens[6].toString());
         assertEquals("DIGIT_ZERO", tokens[6].kind().toString());
-        assertEquals("hex", tokens[6].overKind);
+        assertEquals("hexadecimal", tokens[6].overKind);
         assertEquals(2, tokens[6].span().start().line());
         assertEquals(5, tokens[6].span().start().column());
         assertEquals(6, tokens[6].span().start().offset());
@@ -107,9 +107,10 @@ class BookTest {
 
         // [0x78] [LATIN_SMALL_LETTER_X] [x]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x78] Span[{2:6 7}:{2:7 8}] }", tokens[7].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x78] Span[{2:6 7}:{2:7 8}] }",
+                tokens[7].toString());
         assertEquals("LATIN_SMALL_LETTER_X", tokens[7].kind().toString());
-        assertEquals("hex", tokens[7].overKind);
+        assertEquals("hexadecimal", tokens[7].overKind);
         assertEquals(2, tokens[7].span().start().line());
         assertEquals(6, tokens[7].span().start().column());
         assertEquals(7, tokens[7].span().start().offset());
@@ -119,9 +120,10 @@ class BookTest {
 
         // [0x36] [DIGIT_SIX] [6]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x36] Span[{2:7 8}:{2:8 9}] }", tokens[8].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x36] Span[{2:7 8}:{2:8 9}] }",
+                tokens[8].toString());
         assertEquals("DIGIT_SIX", tokens[8].kind().toString());
-        assertEquals("hex", tokens[8].overKind);
+        assertEquals("hexadecimal", tokens[8].overKind);
         assertEquals(2, tokens[8].span().start().line());
         assertEquals(7, tokens[8].span().start().column());
         assertEquals(8, tokens[8].span().start().offset());
@@ -131,9 +133,10 @@ class BookTest {
 
         // [0x33] [DIGIT_THREE] [3]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x33] Span[{2:8 9}:{2:9 10}] }", tokens[9].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x33] Span[{2:8 9}:{2:9 10}] }",
+                tokens[9].toString());
         assertEquals("DIGIT_THREE", tokens[9].kind().toString());
-        assertEquals("hex", tokens[9].overKind);
+        assertEquals("hexadecimal", tokens[9].overKind);
         assertEquals(2, tokens[9].span().start().line());
         assertEquals(8, tokens[9].span().start().column());
         assertEquals(9, tokens[9].span().start().offset());
@@ -231,9 +234,10 @@ class BookTest {
 
         // [0x30] [DIGIT_ZERO] [0]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x30] Span[{3:6 17}:{3:7 18}] }", tokens[17].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x30] Span[{3:6 17}:{3:7 18}] }",
+                tokens[17].toString());
         assertEquals("DIGIT_ZERO", tokens[17].kind().toString());
-        assertEquals("hex", tokens[17].overKind);
+        assertEquals("hexadecimal", tokens[17].overKind);
         assertEquals(3, tokens[17].span().start().line());
         assertEquals(6, tokens[17].span().start().column());
         assertEquals(17, tokens[17].span().start().offset());
@@ -243,9 +247,10 @@ class BookTest {
 
         // [0x78] [LATIN_SMALL_LETTER_X] [x]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x78] Span[{3:7 18}:{3:8 19}] }", tokens[18].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x78] Span[{3:7 18}:{3:8 19}] }",
+                tokens[18].toString());
         assertEquals("LATIN_SMALL_LETTER_X", tokens[18].kind().toString());
-        assertEquals("hex", tokens[18].overKind);
+        assertEquals("hexadecimal", tokens[18].overKind);
         assertEquals(3, tokens[18].span().start().line());
         assertEquals(7, tokens[18].span().start().column());
         assertEquals(18, tokens[18].span().start().offset());
@@ -255,9 +260,10 @@ class BookTest {
 
         // [0x37] [DIGIT_SEVEN] [7]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x37] Span[{3:8 19}:{3:9 20}] }", tokens[19].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x37] Span[{3:8 19}:{3:9 20}] }",
+                tokens[19].toString());
         assertEquals("DIGIT_SEVEN", tokens[19].kind().toString());
-        assertEquals("hex", tokens[19].overKind);
+        assertEquals("hexadecimal", tokens[19].overKind);
         assertEquals(3, tokens[19].span().start().line());
         assertEquals(8, tokens[19].span().start().column());
         assertEquals(19, tokens[19].span().start().offset());
@@ -267,9 +273,10 @@ class BookTest {
 
         // [0x33] [DIGIT_THREE] [3]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x33] Span[{3:9 20}:{3:10 21}] }", tokens[20].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x33] Span[{3:9 20}:{3:10 21}] }",
+                tokens[20].toString());
         assertEquals("DIGIT_THREE", tokens[20].kind().toString());
-        assertEquals("hex", tokens[20].overKind);
+        assertEquals("hexadecimal", tokens[20].overKind);
         assertEquals(3, tokens[20].span().start().line());
         assertEquals(9, tokens[20].span().start().column());
         assertEquals(20, tokens[20].span().start().offset());

@@ -403,9 +403,10 @@ class ChoicesTest {
 
         // [0x30] [DIGIT_ZERO] [0]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x30] Span[{1:2 2}:{1:3 3}] }", tokens[2].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x30] Span[{1:2 2}:{1:3 3}] }",
+                tokens[2].toString());
         assertEquals("DIGIT_ZERO", tokens[2].kind().toString());
-        assertEquals("hex", tokens[2].overKind);
+        assertEquals("hexadecimal", tokens[2].overKind);
         assertEquals(1, tokens[2].span().start().line());
         assertEquals(2, tokens[2].span().start().column());
         assertEquals(2, tokens[2].span().start().offset());
@@ -415,9 +416,10 @@ class ChoicesTest {
 
         // [0x78] [LATIN_SMALL_LETTER_X] [x]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x78] Span[{1:3 3}:{1:4 4}] }", tokens[3].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x78] Span[{1:3 3}:{1:4 4}] }",
+                tokens[3].toString());
         assertEquals("LATIN_SMALL_LETTER_X", tokens[3].kind().toString());
-        assertEquals("hex", tokens[3].overKind);
+        assertEquals("hexadecimal", tokens[3].overKind);
         assertEquals(1, tokens[3].span().start().line());
         assertEquals(3, tokens[3].span().start().column());
         assertEquals(3, tokens[3].span().start().offset());
@@ -427,9 +429,10 @@ class ChoicesTest {
 
         // [0x36] [DIGIT_SIX] [6]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x36] Span[{1:4 4}:{1:5 5}] }", tokens[4].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x36] Span[{1:4 4}:{1:5 5}] }",
+                tokens[4].toString());
         assertEquals("DIGIT_SIX", tokens[4].kind().toString());
-        assertEquals("hex", tokens[4].overKind);
+        assertEquals("hexadecimal", tokens[4].overKind);
         assertEquals(1, tokens[4].span().start().line());
         assertEquals(4, tokens[4].span().start().column());
         assertEquals(4, tokens[4].span().start().offset());
@@ -439,9 +442,10 @@ class ChoicesTest {
 
         // [0x31] [DIGIT_ONE] [1]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x31] Span[{1:5 5}:{1:6 6}] }", tokens[5].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x31] Span[{1:5 5}:{1:6 6}] }",
+                tokens[5].toString());
         assertEquals("DIGIT_ONE", tokens[5].kind().toString());
-        assertEquals("hex", tokens[5].overKind);
+        assertEquals("hexadecimal", tokens[5].overKind);
         assertEquals(1, tokens[5].span().start().line());
         assertEquals(5, tokens[5].span().start().column());
         assertEquals(5, tokens[5].span().start().offset());
@@ -605,9 +609,10 @@ class ChoicesTest {
 
         // [0x30] [DIGIT_ZERO] [0]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x30] Span[{1:4 4}:{1:5 5}] }", tokens[4].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x30] Span[{1:4 4}:{1:5 5}] }",
+                tokens[4].toString());
         assertEquals("DIGIT_ZERO", tokens[4].kind().toString());
-        assertEquals("hex", tokens[4].overKind);
+        assertEquals("hexadecimal", tokens[4].overKind);
         assertEquals(1, tokens[4].span().start().line());
         assertEquals(4, tokens[4].span().start().column());
         assertEquals(4, tokens[4].span().start().offset());
@@ -617,9 +622,10 @@ class ChoicesTest {
 
         // [0x78] [LATIN_SMALL_LETTER_X] [x]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x78] Span[{1:5 5}:{1:6 6}] }", tokens[5].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x78] Span[{1:5 5}:{1:6 6}] }",
+                tokens[5].toString());
         assertEquals("LATIN_SMALL_LETTER_X", tokens[5].kind().toString());
-        assertEquals("hex", tokens[5].overKind);
+        assertEquals("hexadecimal", tokens[5].overKind);
         assertEquals(1, tokens[5].span().start().line());
         assertEquals(5, tokens[5].span().start().column());
         assertEquals(5, tokens[5].span().start().offset());
@@ -629,9 +635,10 @@ class ChoicesTest {
 
         // [0x36] [DIGIT_SIX] [6]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x36] Span[{1:6 6}:{1:7 7}] }", tokens[6].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x36] Span[{1:6 6}:{1:7 7}] }",
+                tokens[6].toString());
         assertEquals("DIGIT_SIX", tokens[6].kind().toString());
-        assertEquals("hex", tokens[6].overKind);
+        assertEquals("hexadecimal", tokens[6].overKind);
         assertEquals(1, tokens[6].span().start().line());
         assertEquals(6, tokens[6].span().start().column());
         assertEquals(6, tokens[6].span().start().offset());
@@ -641,9 +648,10 @@ class ChoicesTest {
 
         // [0x33] [DIGIT_THREE] [3]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x33] Span[{1:7 7}:{1:8 8}] }", tokens[7].toString());
+                "Token { Kind[hexadecimal] Lexeme[0x33] Span[{1:7 7}:{1:8 8}] }",
+                tokens[7].toString());
         assertEquals("DIGIT_THREE", tokens[7].kind().toString());
-        assertEquals("hex", tokens[7].overKind);
+        assertEquals("hexadecimal", tokens[7].overKind);
         assertEquals(1, tokens[7].span().start().line());
         assertEquals(7, tokens[7].span().start().column());
         assertEquals(7, tokens[7].span().start().offset());
@@ -689,10 +697,10 @@ class ChoicesTest {
 
         // [0x30] [DIGIT_ZERO] [0]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x30] Span[{1:11 11}:{1:12 12}] }",
+                "Token { Kind[hexadecimal] Lexeme[0x30] Span[{1:11 11}:{1:12 12}] }",
                 tokens[11].toString());
         assertEquals("DIGIT_ZERO", tokens[11].kind().toString());
-        assertEquals("hex", tokens[11].overKind);
+        assertEquals("hexadecimal", tokens[11].overKind);
         assertEquals(1, tokens[11].span().start().line());
         assertEquals(11, tokens[11].span().start().column());
         assertEquals(11, tokens[11].span().start().offset());
@@ -702,10 +710,10 @@ class ChoicesTest {
 
         // [0x78] [LATIN_SMALL_LETTER_X] [x]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x78] Span[{1:12 12}:{1:13 13}] }",
+                "Token { Kind[hexadecimal] Lexeme[0x78] Span[{1:12 12}:{1:13 13}] }",
                 tokens[12].toString());
         assertEquals("LATIN_SMALL_LETTER_X", tokens[12].kind().toString());
-        assertEquals("hex", tokens[12].overKind);
+        assertEquals("hexadecimal", tokens[12].overKind);
         assertEquals(1, tokens[12].span().start().line());
         assertEquals(12, tokens[12].span().start().column());
         assertEquals(12, tokens[12].span().start().offset());
@@ -715,10 +723,10 @@ class ChoicesTest {
 
         // [0x36] [DIGIT_SIX] [6]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x36] Span[{1:13 13}:{1:14 14}] }",
+                "Token { Kind[hexadecimal] Lexeme[0x36] Span[{1:13 13}:{1:14 14}] }",
                 tokens[13].toString());
         assertEquals("DIGIT_SIX", tokens[13].kind().toString());
-        assertEquals("hex", tokens[13].overKind);
+        assertEquals("hexadecimal", tokens[13].overKind);
         assertEquals(1, tokens[13].span().start().line());
         assertEquals(13, tokens[13].span().start().column());
         assertEquals(13, tokens[13].span().start().offset());
@@ -728,10 +736,10 @@ class ChoicesTest {
 
         // [0x31] [DIGIT_ONE] [1]
         assertEquals(
-                "Token { Kind[hex] Lexeme[0x31] Span[{1:14 14}:{1:15 15}] }",
+                "Token { Kind[hexadecimal] Lexeme[0x31] Span[{1:14 14}:{1:15 15}] }",
                 tokens[14].toString());
         assertEquals("DIGIT_ONE", tokens[14].kind().toString());
-        assertEquals("hex", tokens[14].overKind);
+        assertEquals("hexadecimal", tokens[14].overKind);
         assertEquals(1, tokens[14].span().start().line());
         assertEquals(14, tokens[14].span().start().column());
         assertEquals(14, tokens[14].span().start().offset());
