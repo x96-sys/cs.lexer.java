@@ -23,7 +23,7 @@ public class Modifier extends Ghost {
     }
 
     @Override
-    public String overkind() {
+    public String overKind() {
         return "morpho";
     }
 }

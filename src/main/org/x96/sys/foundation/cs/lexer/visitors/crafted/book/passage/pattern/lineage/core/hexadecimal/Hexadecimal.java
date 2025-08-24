@@ -13,14 +13,14 @@ public class Hexadecimal extends DigitZero {
     }
 
     @Override
-    public String overkind() {
-        return "hex";
+    public String overKind() {
+        return "hexadecimal";
     }
 
     @Override
     public Token[] visit() {
-        super.visit();
-        x();
+        rec(overKind()); // prefix 0x
+        x(); // prefix 0x
         if (!isHexDigit()) {
             String msg =
                     String.format(
@@ -35,7 +35,7 @@ public class Hexadecimal extends DigitZero {
 
     private void follow() {
         if (tokenizer.ready() && isHexDigit()) {
-            rec();
+            rec(overKind());
             follow();
         }
     }
@@ -50,7 +50,7 @@ public class Hexadecimal extends DigitZero {
 
     private void x() {
         if (kind() == Kind.LATIN_SMALL_LETTER_X || kind() == Kind.LATIN_CAPITAL_LETTER_X) {
-            rec();
+            rec(overKind());
         } else {
             String msg =
                     String.format(

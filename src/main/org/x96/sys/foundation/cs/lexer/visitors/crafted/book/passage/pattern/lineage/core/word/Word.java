@@ -20,7 +20,7 @@ public class Word extends Apostrophe {
 
     private void content() {
         if (tokenizer.ready() && isContent()) {
-            rec();
+            rec(overKind());
             content();
         }
     }
@@ -42,7 +42,7 @@ public class Word extends Apostrophe {
     }
 
     @Override
-    public String overkind() {
+    public String overKind() {
         return "word";
     }
 }

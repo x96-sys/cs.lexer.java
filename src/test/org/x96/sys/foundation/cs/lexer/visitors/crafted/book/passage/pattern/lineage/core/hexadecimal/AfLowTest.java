@@ -18,10 +18,12 @@ class AfLowTest {
         Lexer lexer = new Lexer(AfLow.class);
         Token[] t = lexer.lex(payload);
         assertEquals(1, t.length);
-        assertEquals("Token { Kind[af_low] Lexeme[0x61] Span[{0:0 0}:{1:1 1}] }", t[0].toString());
+        assertEquals(
+                "Token { Kind[LATIN_SMALL_LETTER_A] Lexeme[0x61] Span[{0:0 0}:{1:1 1}] }",
+                t[0].toString());
         assertEquals(0x61, t[0].lexeme().b());
         assertEquals(Kind.LATIN_SMALL_LETTER_A, t[0].kind());
-        assertEquals("af_low", t[0].overKind);
+        assertNull(t[0].overKind);
     }
 
     private Range rangeIn() {

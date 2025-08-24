@@ -34,35 +34,12 @@ class ModifierTest {
         assertEquals(0x40, t[0].lexeme().b());
         assertEquals(Kind.COMMERCIAL_AT, t[0].kind());
         assertEquals("shell", t[0].overKind);
-
-        for (int i = 0; i < t.length; i++) {
-            byte b = t[i].lexeme().b();
-            System.out.printf(
-                    """
-                    Token token = new Token(
-                            Kind.%s,
-                            new Lexeme((byte) 0x%X),
-                            new Span(
-                                    new Position(%s, %s, %s),
-                                    new Position(%s, %s, %s)));
-                    token.overKind("%s");\
-                    """,
-                    t[i].kind().toString(),
-                    b,
-                    t[i].span().start().line(),
-                    t[i].span().start().column(),
-                    t[i].span().start().offset(),
-                    t[i].span().end().line(),
-                    t[i].span().end().column(),
-                    t[i].span().end().offset(),
-                    t[i].overKind);
-        }
     }
 
     @Test
     void happyOverKind() {
         Modifier mod = new Modifier(new Tokenizer(ByteStream.raw("@".getBytes())));
-        assertEquals("morpho", mod.overkind());
+        assertEquals("morpho", mod.overKind());
     }
 
     @Test

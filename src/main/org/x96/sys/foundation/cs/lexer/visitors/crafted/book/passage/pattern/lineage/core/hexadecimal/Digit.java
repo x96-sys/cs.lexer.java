@@ -9,7 +9,7 @@ public class Digit extends Visitor {
     }
 
     @Override
-    public String overkind() {
+    public String overKind() {
         return "digit";
     }
 

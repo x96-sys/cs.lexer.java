@@ -10,8 +10,6 @@ import org.x96.sys.foundation.cs.lexer.token.Token;
 import org.x96.sys.foundation.cs.lexer.tokenizer.Tokenizer;
 import org.x96.sys.foundation.io.ByteStream;
 
-import java.util.StringJoiner;
-
 class PatternTest {
 
     @Test
@@ -34,36 +32,6 @@ class PatternTest {
         assertTrue(v.allowed());
         Token[] t = v.visit();
 
-        StringJoiner joiner = new StringJoiner(", ");
-        for (int i = 0; i < t.length; i++) {
-            byte b = t[i].lexeme().b();
-            System.out.printf(
-                    """
-                    Token t%s = new Token(
-                    Kind.%s,
-                    new Lexeme((byte) 0x%X),
-                    new Span(
-                    new Position(%s, %s, %s),
-                    new Position(%s, %s, %s)));
-                    t%s.overKind("%s");
-                    %n\
-                    """,
-                    i,
-                    t[i].kind().toString(),
-                    b,
-                    t[i].span().start().line(),
-                    t[i].span().start().column(),
-                    t[i].span().start().offset(),
-                    t[i].span().end().line(),
-                    t[i].span().end().column(),
-                    t[i].span().end().offset(),
-                    i,
-                    t[i].overKind);
-            joiner.add("t" + i);
-        }
-
-        System.out.printf("Token[] t = new Token[]{%s};%n", joiner);
-
         // [0x5F] 95 (_) [LOW_LINE] [ghost]
         assertEquals("Token { Kind[ghost] Lexeme[0x5F] Span[{0:0 0}:{1:1 1}] }", t[0].toString());
         assertEquals(0x5F, t[0].lexeme().b());
@@ -76,7 +44,7 @@ class PatternTest {
                 t[1].toString());
         assertEquals(0x7B, t[1].lexeme().b());
         assertEquals(Kind.LEFT_CURLY_BRACKET, t[1].kind());
-        assertEquals("LEFT_CURLY_BRACKET", t[1].overKind);
+        assertNull(t[1].overKind);
 
         // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [glyph]
         assertEquals("Token { Kind[glyph] Lexeme[0x63] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
@@ -85,11 +53,10 @@ class PatternTest {
         assertEquals("glyph", t[2].overKind);
 
         // [0x20] 32 ( ) [SPACE] [empty_space]
-        assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
         assertEquals(0x20, t[3].lexeme().b());
         assertEquals(Kind.SPACE, t[3].kind());
-        assertEquals("empty_space", t[3].overKind);
+        assertEquals("d", t[3].overKind);
 
         // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
         assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:4 4}:{1:5 5}] }", t[4].toString());
@@ -103,7 +70,7 @@ class PatternTest {
                 t[5].toString());
         assertEquals(0x7D, t[5].lexeme().b());
         assertEquals(Kind.RIGHT_CURLY_BRACKET, t[5].kind());
-        assertEquals("RIGHT_CURLY_BRACKET", t[5].overKind);
+        assertNull(t[5].overKind);
     }
 
     @Test
@@ -126,11 +93,10 @@ class PatternTest {
         assertEquals("glyph", t[1].overKind);
 
         // [0x20] 32 ( ) [SPACE] [empty_space]
-        assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
         assertEquals(0x20, t[2].lexeme().b());
         assertEquals(Kind.SPACE, t[2].kind());
-        assertEquals("empty_space", t[2].overKind);
+        assertEquals("d", t[2].overKind);
 
         // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
         assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
@@ -143,7 +109,7 @@ class PatternTest {
                 "Token { Kind[SEMICOLON] Lexeme[0x3B] Span[{1:4 4}:{1:5 5}] }", t[4].toString());
         assertEquals(0x3B, t[4].lexeme().b());
         assertEquals(Kind.SEMICOLON, t[4].kind());
-        assertEquals("SEMICOLON", t[4].overKind);
+        assertNull(t[4].overKind);
     }
 
     @Test
@@ -160,11 +126,10 @@ class PatternTest {
         assertEquals("glyph", t[0].overKind);
 
         // [0x20] 32 ( ) [SPACE] [empty_space]
-        assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", t[1].toString());
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:1 1}:{1:2 2}] }", t[1].toString());
         assertEquals(0x20, t[1].lexeme().b());
         assertEquals(Kind.SPACE, t[1].kind());
-        assertEquals("empty_space", t[1].overKind);
+        assertEquals("d", t[1].overKind);
 
         // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
         assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
@@ -177,7 +142,7 @@ class PatternTest {
                 "Token { Kind[SEMICOLON] Lexeme[0x3B] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
         assertEquals(0x3B, t[3].lexeme().b());
         assertEquals(Kind.SEMICOLON, t[3].kind());
-        assertEquals("SEMICOLON", t[3].overKind);
+        assertNull(t[3].overKind);
     }
 
     @Test
@@ -193,7 +158,7 @@ class PatternTest {
                 t[0].toString());
         assertEquals(0x7B, t[0].lexeme().b());
         assertEquals(Kind.LEFT_CURLY_BRACKET, t[0].kind());
-        assertEquals("LEFT_CURLY_BRACKET", t[0].overKind);
+        assertNull(t[0].overKind);
 
         // [0x63] 99 (c) [LATIN_SMALL_LETTER_C] [glyph]
         assertEquals("Token { Kind[glyph] Lexeme[0x63] Span[{1:1 1}:{1:2 2}] }", t[1].toString());
@@ -202,11 +167,10 @@ class PatternTest {
         assertEquals("glyph", t[1].overKind);
 
         // [0x20] 32 ( ) [SPACE] [empty_space]
-        assertEquals(
-                "Token { Kind[empty_space] Lexeme[0x20] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
+        assertEquals("Token { Kind[d] Lexeme[0x20] Span[{1:2 2}:{1:3 3}] }", t[2].toString());
         assertEquals(0x20, t[2].lexeme().b());
         assertEquals(Kind.SPACE, t[2].kind());
-        assertEquals("empty_space", t[2].overKind);
+        assertEquals("d", t[2].overKind);
 
         // [0x73] 115 (s) [LATIN_SMALL_LETTER_S] [glyph]
         assertEquals("Token { Kind[glyph] Lexeme[0x73] Span[{1:3 3}:{1:4 4}] }", t[3].toString());
@@ -220,7 +184,7 @@ class PatternTest {
                 t[4].toString());
         assertEquals(0x7D, t[4].lexeme().b());
         assertEquals(Kind.RIGHT_CURLY_BRACKET, t[4].kind());
-        assertEquals("RIGHT_CURLY_BRACKET", t[4].overKind);
+        assertNull(t[4].overKind);
     }
 
     @Test

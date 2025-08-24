@@ -1,0 +1,12 @@
+out
+lib
+.DS_Store
+*.jar
+nbproject
+nbbuild.xml
+manifest.mf
+*.iml
+.zig-cache
+.idea
+build
+build.xml

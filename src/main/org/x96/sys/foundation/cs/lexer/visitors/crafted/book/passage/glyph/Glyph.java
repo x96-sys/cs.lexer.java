@@ -11,7 +11,7 @@ public class Glyph extends Visitor {
     }
 
     @Override
-    public String overkind() {
+    public String overKind() {
         return "glyph";
     }
 
@@ -24,13 +24,13 @@ public class Glyph extends Visitor {
 
     private void follow() {
         if (tokenizer.ready() && (allowed() || Kind.isLowLine(look()))) {
-            rec();
+            rec(overKind());
             follow();
         }
     }
 
     private void first() {
-        rec();
+        rec(overKind());
     }
 
     @Override
