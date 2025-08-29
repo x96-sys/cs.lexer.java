@@ -4,11 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.x96.sys.foundation.cs.lexer.LexerTest.lex;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.buzz.cs.lexer.BuzzLex;
-import org.x96.sys.foundation.cs.lexer.token.Kind;
-import org.x96.sys.foundation.cs.lexer.token.Token;
-import org.x96.sys.foundation.cs.lexer.tokenizer.Tokenizer;
-import org.x96.sys.foundation.io.ByteStream;
+import org.x96.sys.buzz.lexer.BuzzLex;
+import org.x96.sys.cs.lexer.visitors.passage.pattern.Pattern;
+import org.x96.sys.io.ByteStream;
+import org.x96.sys.lexer.token.Kind;
+import org.x96.sys.lexer.token.Token;
+import org.x96.sys.lexer.tokenizer.Tokenizer;
 
 class PatternTest {
 

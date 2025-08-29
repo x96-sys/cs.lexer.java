@@ -3,9 +3,10 @@ package org.x96.sys.foundation.cs.lexer;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.cs.lexer.token.Token;
-import org.x96.sys.foundation.cs.lexer.visitor.Visitor;
-import org.x96.sys.foundation.cs.lexer.visitors.crafted.book.Book;
+import org.x96.sys.cs.lexer.visitors.Book;
+import org.x96.sys.lexer.Lexer;
+import org.x96.sys.lexer.token.Token;
+import org.x96.sys.lexer.visitor.Visitor;
 
 import java.io.IOException;
 import java.nio.file.Files;

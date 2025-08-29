@@ -3,12 +3,13 @@ package org.x96.sys.foundation.cs.lexer.visitors.crafted.book.passage.pattern.li
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.cs.lexer.Lexer;
-import org.x96.sys.foundation.cs.lexer.token.Kind;
-import org.x96.sys.foundation.cs.lexer.token.Token;
-import org.x96.sys.foundation.cs.lexer.tokenizer.Tokenizer;
-import org.x96.sys.foundation.io.ByteStream;
+import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.hexadecimal.AfLow;
 import org.x96.sys.foundation.test.util.Range;
+import org.x96.sys.io.ByteStream;
+import org.x96.sys.lexer.Lexer;
+import org.x96.sys.lexer.token.Kind;
+import org.x96.sys.lexer.token.Token;
+import org.x96.sys.lexer.tokenizer.Tokenizer;
 
 class AfLowTest {
 

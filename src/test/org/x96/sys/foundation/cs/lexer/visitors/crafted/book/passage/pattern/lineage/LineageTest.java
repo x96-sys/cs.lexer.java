@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.x96.sys.foundation.cs.lexer.LexerTest.lex;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.cs.lexer.token.Token;
+import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.Lineage;
+import org.x96.sys.lexer.token.Token;
 
 class LineageTest {
     @Test

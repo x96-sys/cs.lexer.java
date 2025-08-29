@@ -3,9 +3,10 @@ package org.x96.sys.foundation.cs.lexer.visitors.crafted.book.passage.pattern.li
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.cs.lexer.Lexer;
-import org.x96.sys.foundation.cs.lexer.token.Kind;
-import org.x96.sys.foundation.cs.lexer.token.Token;
+import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.unit.Unit;
+import org.x96.sys.lexer.Lexer;
+import org.x96.sys.lexer.token.Kind;
+import org.x96.sys.lexer.token.Token;
 
 class UnitTest {
     @Test

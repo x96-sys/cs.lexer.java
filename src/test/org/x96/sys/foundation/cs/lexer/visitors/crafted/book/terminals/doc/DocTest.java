@@ -3,8 +3,9 @@ package org.x96.sys.foundation.cs.lexer.visitors.crafted.book.terminals.doc;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.cs.lexer.Lexer;
-import org.x96.sys.foundation.cs.lexer.token.Token;
+import org.x96.sys.cs.lexer.visitors.terminals.doc.Doc;
+import org.x96.sys.lexer.Lexer;
+import org.x96.sys.lexer.token.Token;
 
 class DocTest {
 

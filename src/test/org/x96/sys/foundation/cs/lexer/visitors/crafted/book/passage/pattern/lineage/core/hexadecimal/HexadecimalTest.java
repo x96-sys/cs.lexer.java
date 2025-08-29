@@ -5,9 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import org.x96.sys.foundation.buzz.cs.lexer.BuzzLex;
-import org.x96.sys.foundation.cs.lexer.Lexer;
-import org.x96.sys.foundation.cs.lexer.token.Token;
+import org.x96.sys.buzz.lexer.BuzzLex;
+import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.hexadecimal.Hexadecimal;
+import org.x96.sys.lexer.Lexer;
+import org.x96.sys.lexer.token.Token;
 
 class HexadecimalTest {
     @Test
