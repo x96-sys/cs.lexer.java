@@ -81,7 +81,7 @@ JACOCO_AGENT_BIN     = $(TOOLS_DIR)/jacocoagent-runtime.jar
 JACOCO_AGENT_URL     = $(JACOCO_BASE)/org.jacoco.agent/$(JACOCO_AGENT_VERSION)/org.jacoco.agent-$(JACOCO_AGENT_VERSION)-runtime.jar
 JACOCO_AGENT_SHA256  = 47e700ccb0fdb9e27c5241353f8161938f4e53c3561dd35e063c5fe88dc3349b
 
-DISTRO_BIN = org.x96.sys.foundation.cs.lexer.dsl.jar
+DISTRO_BIN = org.x96.sys.cs.lexer.jar
 
 JAVA_SOURCES      := $(shell find $(SRC_MAIN) -name "*.java")
 JAVA_TEST_SOURCES := $(shell find $(SRC_TEST) -name "*.java")
