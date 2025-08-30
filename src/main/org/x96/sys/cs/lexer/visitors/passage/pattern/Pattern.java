@@ -4,8 +4,8 @@ import org.x96.sys.cs.lexer.visitors.passage.pattern.casing.Casing;
 import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.Lineage;
 import org.x96.sys.cs.lexer.visitors.passage.pattern.modifier.Modifier;
 import org.x96.sys.cs.lexer.visitors.terminals.docOrSpace.DocOrEmptySpace;
-import org.x96.sys.foundation.cs.lexer.router.serial.Serial;
-import org.x96.sys.foundation.cs.lexer.router.switcher.Switcher;
+import org.x96.sys.router.serial.Serial;
+import org.x96.sys.router.switcher.Switcher;
 import org.x96.sys.lexer.token.Token;
 import org.x96.sys.lexer.tokenizer.Tokenizer;
 

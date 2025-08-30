@@ -3,7 +3,7 @@ package org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.unit;
 import org.x96.sys.cs.lexer.visitors.passage.glyph.Glyph;
 import org.x96.sys.cs.lexer.visitors.passage.pattern.casing.Quantifier;
 import org.x96.sys.cs.lexer.visitors.terminals.docOrSpace.DocOrEmptySpace;
-import org.x96.sys.foundation.cs.lexer.router.serial.Serial;
+import org.x96.sys.router.serial.Serial;
 import org.x96.sys.lexer.token.Token;
 import org.x96.sys.lexer.tokenizer.Tokenizer;
 

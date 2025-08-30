@@ -53,10 +53,10 @@ CS_AST_BIN     = $(LIB_DIR)/org.x96.sys.cs.ast.jar
 CS_AST_URL     = https://github.com/x96-sys/cs.ast.java/releases/download/v$(CS_AST_VERSION)/org.x96.sys.cs.ast.jar
 CS_AST_SHA256  = 2a6a395ea6defdde47d5c9855dd83d47d4cf0d233f3789c3e95094e85b4597a4
 
-ROUTER_VERSION = 0.2.0
+ROUTER_VERSION = 1.0.0
 ROUTER_BIN     = $(LIB_DIR)/org.x96.sys.lexer.router.jar
-ROUTER_URL     = https://github.com/x96-sys/cs.lexer.router.java/releases/download/v$(ROUTER_VERSION)/org.x96.sys.lexer.router.jar
-ROUTER_SHA256  = 88ebc66c8da8fc7056716b4cc8ce24cd1f6a487e3fb9d3d7173cfd95f0c6719b
+ROUTER_URL     = https://github.com/x96-sys/lexer.router.java/releases/download/v$(ROUTER_VERSION)/org.x96.sys.lexer.router.jar
+ROUTER_SHA256  = 575aab309a0f75e0ca9f9a6523c07bafcfeb2314dfa5c5482326c832d4bf63c6
 
 JUNIT_VERSION = 1.13.4
 JUNIT_BIN     = $(TOOLS_DIR)/junit-platform-console-standalone.jar

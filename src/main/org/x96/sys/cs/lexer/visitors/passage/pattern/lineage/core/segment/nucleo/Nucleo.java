@@ -5,7 +5,7 @@ import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.segment.Segmen
 import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.segment.nucleo.rangeHex.RangeHexadecimal;
 import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.unit.Unit;
 import org.x96.sys.cs.lexer.visitors.passage.pattern.lineage.core.word.Word;
-import org.x96.sys.foundation.cs.lexer.router.switcher.Switcher;
+import org.x96.sys.router.switcher.Switcher;
 import org.x96.sys.lexer.token.Token;
 import org.x96.sys.lexer.tokenizer.Tokenizer;
 

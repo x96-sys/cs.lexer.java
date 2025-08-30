@@ -4,7 +4,7 @@ import org.x96.sys.cs.lexer.visitors.passage.assignor.Assignor;
 import org.x96.sys.cs.lexer.visitors.passage.glyph.Glyph;
 import org.x96.sys.cs.lexer.visitors.passage.pattern.Pattern;
 import org.x96.sys.cs.lexer.visitors.terminals.docOrSpace.DocOrEmptySpace;
-import org.x96.sys.foundation.cs.lexer.router.serial.Serial;
+import org.x96.sys.router.serial.Serial;
 import org.x96.sys.lexer.token.Token;
 import org.x96.sys.lexer.tokenizer.Tokenizer;
 

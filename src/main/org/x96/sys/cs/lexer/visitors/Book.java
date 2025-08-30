@@ -4,9 +4,10 @@ import org.x96.sys.cs.lexer.visitors.close_book.CloseBook;
 import org.x96.sys.cs.lexer.visitors.open_book.OpenBook;
 import org.x96.sys.cs.lexer.visitors.passage.Passage;
 import org.x96.sys.cs.lexer.visitors.terminals.docOrSpace.DocOrEmptySpace;
-import org.x96.sys.foundation.cs.lexer.router.serial.Serial;
+
 import org.x96.sys.lexer.token.Token;
 import org.x96.sys.lexer.tokenizer.Tokenizer;
+import org.x96.sys.router.serial.Serial;
 
 public class Book extends OpenBook {
     public Book(Tokenizer tokenizer) {
